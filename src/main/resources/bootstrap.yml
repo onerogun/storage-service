@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: storage-service
+  cloud:
+    config:
+      uri: http://cloud-config-server:9595
+      #uri: http://localhost:9595
+      fail-fast: true
+      retry:
+        initial-interval: 5000
+        multiplier: 1.5
+        max-attempts: 500
+        max-interval: 5000
+      username: configUser
+      password: configPassword
+
+
+
+server:
+  port: 9696
+
