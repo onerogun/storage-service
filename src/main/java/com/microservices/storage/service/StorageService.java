@@ -98,9 +98,9 @@ public class StorageService {
         //Directory for each item
         String dirName = StringUtils.cleanPath(String.valueOf(id));
 
-        log.info(savedLocation);
         //Inside of item owned directory
         Path path =  Paths.get(pathToDir + dirName + File.separator  + savedLocation);
+        log.info("exact path: " + path.toString());
                 if (Files.exists(path)){
                     try {
 
@@ -109,11 +109,13 @@ public class StorageService {
                         byte[] data = new byte[size];
                         dataInputStream.read(data);
                       //  byte[] data = ByteStreams.toByteArray(Files.newInputStream(path));
+                        log.info("<<<<file found and returning>>>");
                         return data;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
+                log.info("!!!!!!!!!11file not found");
         return null;
     }
 
