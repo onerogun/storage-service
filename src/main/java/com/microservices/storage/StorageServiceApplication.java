@@ -17,7 +17,6 @@ public class StorageServiceApplication {
 	}
 
 	@Bean
-	@LoadBalanced
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
