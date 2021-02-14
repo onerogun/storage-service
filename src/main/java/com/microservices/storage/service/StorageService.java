@@ -37,8 +37,6 @@ public class StorageService {
     @Autowired
     private SourceChannels sourceChannels;
 
-    @Autowired
-    private RestTemplate restTemplate;
 
 
     /**

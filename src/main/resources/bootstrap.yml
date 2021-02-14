@@ -14,8 +14,3 @@ spring:
       username: configUser
       password: configPassword
 
-
-
-server:
-  port: 9696
-
