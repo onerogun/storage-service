@@ -50,6 +50,7 @@ public class StorageService {
         log.info("Inside of save method of StorageService class, storage-service");
         //Directory where files are saved
         String pathToDir  = getPathToDirectory();
+        log.info("<<<<<<<<<<<<<<<<<<<<home path: >>>>>>>><<" + pathToDir.toString());
         //Directory for each item
         String dirName = StringUtils.cleanPath(String.valueOf(id));
         //Inside of item owned directory
