@@ -1,11 +1,13 @@
 package com.microservices.storage.service;
 
+import com.microservices.storage.VO.ItemPathList;
 import com.microservices.storage.VO.PathObj;
 import com.microservices.storage.streamchannels.SourceChannels;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -147,5 +150,23 @@ public class StorageService {
         pathObj.setItemId(id);
         pathObj.setPath(loc);
         sourceChannels.outputFileDeleted().send(MessageBuilder.withPayload(pathObj).build());
+    }
+
+    @StreamListener(SourceChannels.INPUT_ITEM_DELETED_FILE_LOCATION)
+    private void deleteItemPictures(ItemPathList itemPathList){
+        log.info("Inside of deleteItemPictures method of StorageService class, storage-service");
+        String pathToDir  = getPathToDirectory();
+        itemPathList.getPathList().stream()
+                .forEach(loc -> {
+                    //Directory for each item
+                    String dirName = StringUtils.cleanPath(String.valueOf(itemPathList.getItemId()));
+                    //Inside of item owned directory
+                    Path path = Paths.get(pathToDir + dirName + File.separator + loc);
+                    try {
+                        Files.deleteIfExists(path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 }
